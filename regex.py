@@ -1,7 +1,7 @@
 import re
 import urllib.request as request
 
-def checkRepo(url: str) -> str:
+def checkRepo(repoDict: dict):
 
     webURL = request.urlopen(url)
 
