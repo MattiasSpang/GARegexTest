@@ -1,40 +1,40 @@
 import re
 import urllib.request as request
+import urllib.error as urlerror
+from urllib.error import URLError, HTTPError
 
 def checkRepo(url: str) -> str:
 
     try:
         webURL = request.urlopen(url)
     except:
-        return "Repo does not excist"
+        return "could not open URL"
+    else:
 
-    #print("result for opening repository code: " + str(webURL.getcode()))
+        #print("result for opening repository code: " + str(webURL.getcode()))
 
-    data = webURL.read()
+        data = webURL.read()
 
-    #webData = open("web-data.txt", "w+")
+        #webData = open("web-data.txt", "w+")
 
-    #webData.truncate()
+        #webData.truncate()
 
-    #webData.write(str(data))
-
-    x = re.findall('data-menu-button>(.*?)<\/span>', str(data))
+        #webData.write(str(data))
 
 
-    #print("Result of regex: ", x)
-    #print("------------------------------------", url+'/tree/'+x[0]+'/.github/workflows')
-    try:
-        webGAURL = request.urlopen(url+'/tree/'+x[0]+'/.github/workflows')
-    except OSError as err:
-        return "No"
+        x = re.findall('data-menu-button>(.*?)<\/span>', str(data))
 
-    #print("result for GITHUB ACTIONs CHECK code: " + str(webGAURL.getcode()))
+        if len(x) <= 0:
+            print("len <= 0")
+            return "Does not exist"
 
-    if(str(webGAURL.getcode()) == "200"):
-        print("code was ", str(webGAURL.getcode()))
+
+        #print("Result of regex: ", x)
+        #print("------------------------------------", url+'/tree/'+x[0]+'/.github/workflows')
+        try:
+            webGAURL = request.urlopen(url+'/tree/'+x[0]+'/.github/workflows')
+        except:
+            return "No" # does not have GA
+
         return "Yes"
-    elif(str(webGAURL.getcode()) == "404"):
-        print("code was ", str(webGAURL.getcode()))
-        return "No"
-    else: 
-        return "Undefined"
+        #print("result for GITHUB ACTIONs CHECK code: " + str(webGAURL.getcode()))
