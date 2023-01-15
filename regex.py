@@ -1,23 +1,24 @@
 import re
 import urllib.request as request
 
-webURL = request.urlopen('https://github.com/MattiasSpang/GARegexTest')
+def checkRepo(url: str) -> str:
 
-print("result for opening repository code: " + str(webURL.getcode()))
+    webURL = request.urlopen(url)
 
-data = webURL.read()
+    print("result for opening repository code: " + str(webURL.getcode()))
 
-webData = open("web-data.txt", "w+")
+    data = webURL.read()
 
-webData.truncate()
+    webData = open("web-data.txt", "w+")
 
-webData.write(str(data))
+    webData.truncate()
 
-x = re.findall('data-menu-button>(\w+)</span>', str(data))
+    webData.write(str(data))
 
-print("Result of regex: ", x)
+    x = re.findall('data-menu-button>(\w+)</span>', str(data))
 
-webGAURL = request.urlopen('https://github.com/MattiasSpang/GARegexTest/tree/'+x[0]+'/.github/workflows')
+    print("Result of regex: ", x)
 
-print("result for GITHUB ACTIONs CHECK code: " + str(webGAURL.getcode()))
+    webGAURL = request.urlopen(url+'tree/'+x[0]+'/.github/workflows')
 
+    print("result for GITHUB ACTIONs CHECK code: " + str(webGAURL.getcode()))
