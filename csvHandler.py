@@ -14,7 +14,7 @@ def readCsvFile(fileName: str) -> dict: # Read a csv file in the same folder as 
     except OSError:
         print("ERROR: Unable to open the file " + fileName)
         return None
-    csvReader = csv.reader(file)
+    csvReader = csv.reader(file, delimiter=";")
 
     header = []
     rows = []   
